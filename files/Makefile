@@ -10,22 +10,30 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME := inception
+COMPOSE = ./srcs/docker-compose.yml
 
 all:
-	docker compose -f ./scrs/docker-compose.yml up -d --build
+	mkdir -p /home/acrespy/data
+	mkdir -p /home/acrespy/data/wordpress
+	mkdir -p /home/acrespy/data/mariadb
+	sudo docker-compose -f $(COMPOSE) up -d --build
+	${info STATUS : Making}
 
-down:
-	docker compose -f ./scrs/docker-compose.yml down
+stop:
+	sudo docker-compose -f $(COMPOSE) stop
+	${info STATUS : Stopping}
 
-clean:
-	docker stop $$(docker ps -qa);
-	docker rm $$(docker ps -qa);
-	docker rmi -f $$(docker images -qa);
-	docker volume rm $$(docker volume ls -q);
-	docker network rm $$(docker network ls -q);
+clean: stop
+	sudo docker-compose -f $(COMPOSE) down -v
+	${info STATUS : Cleaning}
+
+fclean: clean
+	sudo rm -rf /home/acrespy/data/wordpress
+	sudo rm -rf /home/acrespy/data/mariadb
+	sudo docker system prune -af
+	${info STATUS : Fully Cleaning}
 
 re: clean all
 
-.PHONY: all down clean re
-.SILENT: all down clean re
+.PHONY: all stop clean fclean re
+.SILENT: all stop clean fclean re

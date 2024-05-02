@@ -9,3 +9,65 @@
 #    Updated: 2023/05/16 15:01:53 by acrespy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    build: ./requirements/mariadb
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - inception
+    env_file: .env
+    restart: on-failure
+    expose:
+      - "3306"
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    build: ./requirements/nginx
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    env_file: .env
+    restart: on-failure
+    ports:
+      - "443:443"
+
+  wordpress:
+    image: wordpress
+    container_name: wordpress
+    build: ./requirements/wordpress
+    volumes:
+    - wordpress:/var/www/wordpress
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    env_file: .env
+    restart: on-failure
+    expose: 
+      - "9000"
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/acrespy/data/mariadb'
+  wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/acrespy/data/wordpress'
+
+networks:
+    inception:
+      driver: bridge
