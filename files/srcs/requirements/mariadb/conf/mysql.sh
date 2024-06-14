@@ -10,16 +10,26 @@
 #                                                                              #
 # **************************************************************************** #
 
+#!/bin/sh
 
-service mariadb start;
+echo "-> start"
 
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
-mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-mysql -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+service mariadb start
+sleep 5
+echo "-> fin start"
+
+mysql < /mysql.sql
+echo "-> fin .sql"
+
+mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+echo "-> fin alter"
+
+mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
+echo "-> fin flush"
 
 mysqladmin -u root -p"$MYSQL_ROOT_PASSWORD" shutdown
+echo "-> fin shutdown"
 
 exec mysqld_safe
+echo "-> fin exec"
 

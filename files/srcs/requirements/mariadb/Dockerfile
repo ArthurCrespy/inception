@@ -18,6 +18,7 @@ RUN apt-get install -y apt-utils
 RUN apt-get install -y mariadb-server
 
 COPY ./conf/mysql.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./conf/mysql.sql /mysql.sql
 COPY ./conf/mysql.sh /mysql.sh
 
 ENTRYPOINT ["bash", "mysql.sh"]
