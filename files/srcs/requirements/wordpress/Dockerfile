@@ -12,17 +12,10 @@
 
 FROM debian:bookworm
 
-RUN apt-get update -y && apt-get upgrade -y
-#RUN apt-get install -y apt-utils dialog wget php php8.0 php-fpm php-mysql mariadb-client
-RUN apt-get install -y apt-utils
-RUN apt-get install -y readline-common
-RUN apt-get install -y dialog
-RUN apt-get install -y wget
-RUN apt-get install -y php
-RUN apt-get install -y php8.0
-RUN apt-get install -y php-fpm
-RUN apt-get install -y php-mysql
-RUN apt-get install -y mariadb-client
+RUN apt update -y && apt upgrade -y
+RUN apt install -y apt-utils dialog wget php8.2 php-fpm php-mysql mariadb-client
+
+RUN a2enmod proxy_fcgi setenvif && a2enconf php8.2-fpm
 
 RUN wget https://fr.wordpress.org/wordpress-6.5.2-fr_FR.tar.gz -P /var/www
 RUN cd /var/www && tar -xzf wordpress-6.5.2-fr_FR.tar.gz && rm wordpress-6.5.2-fr_FR.tar.gz
@@ -32,7 +25,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-COPY	./conf/php.conf	/etc/php/8.0/fpm/pool.d/www.conf
+COPY	./conf/php.conf	/etc/php/8.2/fpm/pool.d/www.conf
 COPY	./conf/wordpress.sh /wordpress.sh
 
 ENTRYPOINT ["bash", "wordpress.sh"]

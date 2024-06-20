@@ -20,7 +20,7 @@ services:
     networks:
       - inception
     env_file: .env
-    restart: on-failure
+#    restart: on-failure
     expose:
       - "3306"
 

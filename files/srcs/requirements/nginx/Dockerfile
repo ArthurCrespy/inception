@@ -12,11 +12,8 @@
 
 FROM debian:bookworm
 
-RUN apt-get update -y && apt-get upgrade -y
-#RUN apt-get install -y apt-utils nginx openssl
-RUN apt-get install -y apt-utils
-RUN apt-get install -y nginx
-RUN apt-get install -y openssl
+RUN apt update -y && apt upgrade -y
+RUN apt install -y apt-utils nginx openssl
 
 RUN mkdir -p /etc/nginx/ssl
 

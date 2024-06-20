@@ -12,24 +12,14 @@
 
 #!/bin/sh
 
-echo "-> start"
-
 service mariadb start
+
 sleep 5
-echo "-> fin start"
 
 mysql < /mysql.sql
-echo "-> fin .sql"
-
-mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-echo "-> fin alter"
 
 mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
-echo "-> fin flush"
 
 mysqladmin -u root -p"$MYSQL_ROOT_PASSWORD" shutdown
-echo "-> fin shutdown"
 
 exec mysqld_safe
-echo "-> fin exec"
-
