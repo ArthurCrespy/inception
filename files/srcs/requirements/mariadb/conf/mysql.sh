@@ -1,25 +1,21 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    mysql.sh                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: acrespy <acrespy@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/05/15 14:54:39 by acrespy           #+#    #+#              #
-#    Updated: 2023/05/16 15:01:53 by acrespy          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 #!/bin/sh
 
 service mariadb start
 
-sleep 5
+sleep 10
 
-mysql < /mysql.sql
+mysql -uroot -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
 
-mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e "FLUSH PRIVILEGES;"
+mysql -uroot -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%.srcs_inception' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%.srcs_inception' WITH GRANT OPTION;"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'wordpress.srcs_inception' WITH GRANT OPTION;"
+mysql -uroot -e "ALTER USER '${MYSQL_USER}'@'%.srcs_inception' IDENTIFIED BY '${MYSQL_PASSWORD}';"
 
-mysqladmin -u root -p"$MYSQL_ROOT_PASSWORD" shutdown
+mysql -uroot -e "CREATE USER IF NOT EXISTS '${MYSQL_ROOT_USER}'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO '${MYSQL_ROOT_USER}'@'%' WITH GRANT OPTION;"
+mysql -uroot -e "ALTER USER '${MYSQL_ROOT_USER}'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
 
-exec mysqld_safe
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
+mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "SHUTDOWN;"
+
+sudo mysqld

@@ -13,7 +13,7 @@
 FROM debian:bookworm
 
 RUN apt update -y && apt upgrade -y
-RUN apt install -y apt-utils mariadb-server
+RUN apt install -y apt-utils sudo mariadb-server
 
 COPY ./conf/mysql.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./conf/mysql.sql /mysql.sql

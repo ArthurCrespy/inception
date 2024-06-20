@@ -28,8 +28,8 @@ clean: stop
 	${info STATUS : Cleaning...}
 
 fclean: clean
-	@sudo rm -rf ${DATA}
 	@sudo rm -rf ${DATA}/wordpress ${DATA}/mariadb
+	@sudo rm -rf ${DATA}
 	@sudo docker system prune -af
 	${info STATUS : Full Cleaning...}
 
