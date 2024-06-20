@@ -8,7 +8,7 @@
 
 <h3 align="center">This document is a System Administration related exercise</h3>
 
-<h4 align="center">Basic stuff in C++</a></h4>
+<h4 align="center">Docker virtualization</a></h4>
 
 <p align="center">
     <a href="https://github.com/ArthurCrespy/inception/search?l=c"> <img alt="Language: C++" src="https://img.shields.io/badge/language-C++-pink"></a>
@@ -40,8 +40,11 @@ $ git clone https://github.com/ArthurCrespy/inception
 # OR clone this repository via SSH
 $ git clone git@github.com:ArthurCrespy/inception.git
 
+# Go into the repository
+$ cd inception/files
+
 # Make the project
-$ cd inception/files/make
+$ make  
 ```
 
 ## Description
