@@ -17,4 +17,4 @@ mysql -uroot -e "ALTER USER '${MYSQL_ROOT_USER}'@'%' IDENTIFIED BY '${MYSQL_ROOT
 mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
 mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "SHUTDOWN;"
 
-mysqld
+mysqld --user=root
