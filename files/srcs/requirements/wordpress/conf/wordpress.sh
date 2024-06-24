@@ -1,5 +1,7 @@
 #!/bin/sh
 
+sleep 20
+
 wp core download --allow-root --path='/var/www/wordpress'
 
 if [ ! -e /var/www/wordpress/wp-config.php ]
@@ -16,4 +18,8 @@ then
   wp user create --role=author "${WP_USER_USER}" "${WP_USER_EMAIL}" --user_pass="${WP_USER_PASS}" --allow-root >> /log.txt
 fi
 
-php-fpm8.2 -F
+service php7.4-fpm start
+
+service php7.4-fpm stop
+
+php-fpm7.4 -F

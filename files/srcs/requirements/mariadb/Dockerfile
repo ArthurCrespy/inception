@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM debian:bookworm
+FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
 RUN apt install -y apt-utils sudo mariadb-server

@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM debian:bookworm
+FROM debian:bullseye
 
 RUN apt update -y && apt upgrade -y
 RUN apt install -y apt-utils nginx openssl
@@ -24,4 +24,4 @@ RUN	openssl req -x509 -days 365 -nodes \
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-CMD [ "nginx", "-g", "daemon off;" ]
+ENTRYPOINT [ "nginx", "-g", "daemon off;" ]
