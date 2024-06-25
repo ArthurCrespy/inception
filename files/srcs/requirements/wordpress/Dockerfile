@@ -21,6 +21,6 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 RUN chmod 755 /usr/local/bin/wp
 
 COPY ./conf/php.conf /etc/php/7.4/fpm/pool.d/www.conf
-COPY ./conf/wordpress.sh /wordpress.sh
+COPY ./tools/wordpress.sh /tmp/wordpress.sh
 
-CMD ["bash", "wordpress.sh"]
+CMD ["bash", "/tmp/wordpress.sh"]

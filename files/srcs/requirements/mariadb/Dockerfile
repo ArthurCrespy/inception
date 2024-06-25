@@ -16,9 +16,8 @@ RUN apt update -y && apt upgrade -y
 RUN apt install -y apt-utils sudo mariadb-server
 
 COPY ./conf/mysql.conf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY ./conf/mysql.sql /mysql.sql
-COPY ./conf/mysql.sh /mysql.sh
+COPY ./tools/mysql.sh /tmp/mysql.sh
 
 EXPOSE 3306
 
-ENTRYPOINT ["bash", "mysql.sh"]
+ENTRYPOINT ["bash", "/tmp/mysql.sh"]
